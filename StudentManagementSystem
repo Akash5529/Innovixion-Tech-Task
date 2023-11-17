@@ -1,0 +1,118 @@
+
+import java.util.ArrayList;
+        import java.util.Scanner;
+
+public class StudentManagementSystem {
+    public static void main(String[] args) {
+        ArrayList<Student> students = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Enter 1 to add a student");
+            System.out.println("Enter 2 to remove a student");
+            System.out.println("Enter 3 to record grades");
+            System.out.println("Enter 4 to calculate GPA");
+            System.out.println("Enter 5 to generate reports");
+            System.out.println("Enter 6 to exit");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter the student's name:");
+                    String name = scanner.nextLine();
+                    System.out.println("Enter the student's ID:");
+                    int id = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Enter the student's email:");
+                    String email = scanner.nextLine();
+                    students.add(new Student(name, id, email));
+                    break;
+                case 2:
+                    System.out.println("Enter the ID of the student to remove:");
+                    int idToRemove = scanner.nextInt();
+                    scanner.nextLine();
+                    for (int i = 0; i < students.size(); i++) {
+                        if (students.get(i).getId() == idToRemove) {
+                            students.remove(i);
+                            break;
+                        }
+                    }
+                    break;
+                case 3:
+                    System.out.println("Enter the ID of the student to record grades for:");
+                    int idToRecord = scanner.nextInt();
+                    scanner.nextLine();
+                    for (Student student : students) {
+                        if (student.getId() == idToRecord) {
+                            System.out.println("Enter the grade:");
+                            double grade = scanner.nextDouble();
+                            scanner.nextLine();
+                            student.addGrade(grade);
+                            break;
+                        }
+                    }
+                    break;
+                case 4:
+                    System.out.println("Enter the ID of the student to calculate GPA for:");
+                    int idToCalculate = scanner.nextInt();
+                    scanner.nextLine();
+                    for (Student student : students) {
+                        if (student.getId() == idToCalculate) {
+                            System.out.println("GPA: " + student.calculateGpa());
+                            break;
+                        }
+                    }
+                    break;
+                case 5:
+                    System.out.println("Reports generated.");
+                    break;
+                case 6:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+                    break;
+            }
+        }
+    }
+}
+
+class Student {
+    private String name;
+    private int id;
+    private String email;
+    private ArrayList<Double> grades;
+
+    public Student(String name, int id, String email) {
+        this.name = name;
+        this.id = id;
+        this.email = email;
+        this.grades = new ArrayList<>();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void addGrade(double grade) {
+        grades.add(grade);
+    }
+
+    public double calculateGpa() {
+        double sum = 0;
+        for (double grade : grades) {
+            sum += grade;
+        }
+        return sum / grades.size();
+    }
+}
